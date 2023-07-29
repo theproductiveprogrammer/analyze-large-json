@@ -1,6 +1,7 @@
 'use strict'
 const alj = require('./alj.js');
 
-alj.loadRecords('large-data-file', rec => {
-  console.log(rec);
+alj.loadRecords('large-data-file', (err, rec) => {
+  if(err) console.error(err);
+  else console.log(rec);
 });
