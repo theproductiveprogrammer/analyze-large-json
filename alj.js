@@ -13,7 +13,9 @@ function loadRecords(fname, cb) {
    */
   let chunks;
   let sz;
+  let stopped;
   stream.on('data', data => {
+    if(stopped) return;
     if(!chunks) {
       initChunks(data);
       if(!chunks) return;
@@ -23,6 +25,7 @@ function loadRecords(fname, cb) {
     }
     const last = chunks[chunks.length-1];
     for(let a of last.entries()) {
+      if(stopped) return;
       const c = a[1];
       if(c == '}'.charCodeAt()) {
         const len_left = (last.length - (a[0] + 1));
@@ -30,9 +33,15 @@ function loadRecords(fname, cb) {
         const buf = Buffer.concat(chunks, sz)
         try {
           const rec = JSON.parse(buf);
-          cb(null, rec);
+          if(cb(null, rec)) {
+            stopped = true;
+            stream.destroy();
+          }
         } catch(e) {
-          cb("Failed to parse json: " + buf.toString('utf8'));
+          if(cb("Failed to parse json: " + buf.toString('utf8'))) {
+            stopped = true;
+            stream.destroy();
+          }
         }
         if(len_left) {
           initChunks(last.slice(a[0]));
@@ -45,6 +54,7 @@ function loadRecords(fname, cb) {
     chunks = null;
     sz = null;
     for(let a of data.entries()) {
+
       const c = a[1];
       if(c == '{'.charCodeAt()) {
         chunks = [data.slice(a[0])];
