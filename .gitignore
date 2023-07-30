@@ -1,3 +1,4 @@
 .*
 !.gitignore
 _tmp/
+node_modules/
