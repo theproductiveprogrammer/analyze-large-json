@@ -1,10 +1,14 @@
 {
   "name": "analyse-large-json",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Utilitiy for analysing large json files (MySQL dumps)",
   "main": "alj.js",
   "scripts": {
     "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theproductiveprogrammer/analyze-large-json.git"
   },
   "author": "charles.lobo@gmail.com",
   "license": "UNLICENSED",
