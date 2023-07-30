@@ -14,6 +14,7 @@ function loadRecords(fname, cb) {
   let chunks;
   let sz;
   let stopped;
+  stream.on('close', () => cb());
   stream.on('data', data => {
     if(stopped) return;
     if(!chunks) {
@@ -43,18 +44,17 @@ function loadRecords(fname, cb) {
             stream.destroy();
           }
         }
+        chunks = null;
+        sz = null;
         if(len_left) {
-          initChunks(last.slice(a[0]));
+          initChunks(last.slice(a[0]+1));
         }
       }
     }
   });
 
   function initChunks(data) {
-    chunks = null;
-    sz = null;
     for(let a of data.entries()) {
-
       const c = a[1];
       if(c == '{'.charCodeAt()) {
         chunks = [data.slice(a[0])];
