@@ -1,0 +1,11 @@
+{
+  "name": "analyse-large-json",
+  "version": "0.1.0",
+  "description": "Utilitiy for analysing large json files (MySQL dumps)",
+  "main": "alj.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "charles.lobo@gmail.com",
+  "license": "UNLICENSED"
+}
