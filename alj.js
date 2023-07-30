@@ -47,7 +47,7 @@ function loadRecords(fname, cb) {
               stream.destroy();
             }
           } catch(e) {
-            if(cb("Failed to parse json: " + buf.toString('utf8'))) {
+            if(cb({line: buf.toString('utf8'), error: e})) {
               stopped = true;
               stream.destroy();
             }
